@@ -48,11 +48,64 @@ export default class Initial1598321194729 implements MigrationInterface {
           },
           {
             name: 'price',
+            type: 'decimal',
+          },
+          {
+            name: 'quantity',
+            type: 'integer',
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+        ],
+      }),
+    );
+
+    await queryRunner.createTable(
+      new Table({
+        name: 'orders_products',
+        columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            generationStrategy: 'uuid',
+            isPrimary: true,
+            default: 'uuid_generate_v4()',
+          },
+          {
+            name: 'order_id',
+            type: 'varchar',
+          },
+          {
+            name: 'product_id',
             type: 'varchar',
           },
           {
             name: 'quantity',
-            type: '',
+            type: 'integer',
+          },
+          {
+            name: 'price',
+            type: 'decimal',
+            precision: 6,
+            scale: 2,
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
           },
         ],
       }),
@@ -60,6 +113,8 @@ export default class Initial1598321194729 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('product');
     await queryRunner.dropTable('order');
+    await queryRunner.dropTable('orders_products');
   }
 }

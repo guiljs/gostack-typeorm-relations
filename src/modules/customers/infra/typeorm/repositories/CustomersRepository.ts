@@ -35,6 +35,8 @@ class CustomersRepository implements ICustomersRepository {
       },
     });
 
+    console.log(findCustomer);
+
     return findCustomer;
   }
 }

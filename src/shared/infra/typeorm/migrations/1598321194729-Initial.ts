@@ -4,7 +4,7 @@ export default class Initial1598321194729 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order',
+        name: 'customers',
         columns: [
           {
             name: 'id',
@@ -14,7 +14,11 @@ export default class Initial1598321194729 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'customer_id',
+            name: 'name',
+            type: 'varchar',
+          },
+          {
+            name: 'email',
             type: 'varchar',
           },
           {
@@ -33,7 +37,46 @@ export default class Initial1598321194729 implements MigrationInterface {
 
     await queryRunner.createTable(
       new Table({
-        name: 'product',
+        name: 'orders',
+        columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
+          },
+          {
+            name: 'customer_id',
+            type: 'uuid',
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+        ],
+        foreignKeys: [
+          {
+            name: 'CustomerOrder',
+            referencedTableName: 'customers',
+            referencedColumnNames: ['id'],
+            columnNames: ['customer_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+        ],
+      }),
+    );
+
+    await queryRunner.createTable(
+      new Table({
+        name: 'products',
         columns: [
           {
             name: 'id',
@@ -81,11 +124,11 @@ export default class Initial1598321194729 implements MigrationInterface {
           },
           {
             name: 'order_id',
-            type: 'varchar',
+            type: 'uuid',
           },
           {
             name: 'product_id',
-            type: 'varchar',
+            type: 'uuid',
           },
           {
             name: 'quantity',
@@ -108,13 +151,32 @@ export default class Initial1598321194729 implements MigrationInterface {
             default: 'now()',
           },
         ],
+        foreignKeys: [
+          {
+            name: 'Order_OrderProducts',
+            referencedTableName: 'orders',
+            referencedColumnNames: ['id'],
+            columnNames: ['order_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'Products_OrderProducts',
+            referencedTableName: 'products',
+            referencedColumnNames: ['id'],
+            columnNames: ['product_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+        ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('product');
-    await queryRunner.dropTable('order');
     await queryRunner.dropTable('orders_products');
+    await queryRunner.dropTable('products');
+    await queryRunner.dropTable('orders');
+    await queryRunner.dropTable('customers');
   }
 }

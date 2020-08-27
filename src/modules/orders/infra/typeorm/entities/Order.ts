@@ -17,10 +17,10 @@ class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @OneToMany(type => Customer, customer => customer.id)
+  @OneToMany(type => Customer, customer => customer.id)
   customer: Customer;
 
-  @OneToMany(type => OrdersProducts, orderProducts => orderProducts.order_id)
+  @ManyToMany(type => OrdersProducts, orderProducts => orderProducts.order_id)
   order_products: OrdersProducts[];
 
   @CreateDateColumn()

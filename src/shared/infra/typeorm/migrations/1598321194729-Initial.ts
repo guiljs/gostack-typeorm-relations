@@ -92,6 +92,8 @@ export default class Initial1598321194729 implements MigrationInterface {
           {
             name: 'price',
             type: 'decimal',
+            precision: 6,
+            scale: 2,
           },
           {
             name: 'quantity',

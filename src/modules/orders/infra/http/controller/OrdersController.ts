@@ -9,7 +9,6 @@ export default class OrdersController {
   public async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const findOrderService = container.resolve(FindOrderService);
-    console.log(`OrderController --> ${id}`);
     const order = await findOrderService.execute(id);
 
     return response.json(order);

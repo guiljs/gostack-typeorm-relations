@@ -30,7 +30,6 @@ class ProductsRepository implements IProductsRepository {
 
     await this.ormRepository.save(product);
 
-    console.log(`Product repository ${JSON.stringify(product)} `);
     return product;
   }
 
@@ -53,15 +52,18 @@ class ProductsRepository implements IProductsRepository {
   public async updateQuantity(
     products: IUpdateProductsQuantityDTO[],
   ): Promise<Product[]> {
-    products.forEach(async prod => {
-      const findProd = await this.ormRepository.findOne(prod.id);
-      if (!findProd) {
-        throw new AppError('Produto não encontrado.');
-      }
-      findProd.quantity = prod.quantity;
-      await this.ormRepository.save(findProd);
-    });
-    return this.ormRepository.findByIds(products);
+    //   products.forEach(async prod => {
+    //     const findProd = await this.ormRepository.findOne(prod.id);
+    //     if (!findProd) {
+    //       throw new AppError('Produto não encontrado.');
+    //     }
+    //     findProd.quantity = prod.quantity;
+    //     await this.ormRepository.save(findProd);
+    //   });
+    //   const prods = await this.ormRepository.findByIds(products);
+    //   return prods;
+    // }
+    return this.ormRepository.save(products);
   }
 }
 

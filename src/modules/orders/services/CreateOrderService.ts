@@ -35,17 +35,10 @@ class CreateOrderService {
       throw new AppError('Cliente não encontrado');
     }
 
-    products.map(p => console.log(p.id));
-
     const findAllProducts = await this.productsRepository.findAllById(products);
-    console.log('findAllProducts.length', findAllProducts.length);
-    console.log('products.length', products.length);
     if (findAllProducts.length !== products.length) {
       throw new AppError('Há produtos não cadastrados');
     }
-
-    // TODO : Produtos foreach
-    console.log(`Order products ${JSON.stringify(products)}`);
 
     const findProductsWithNoQuantityAvailable = products.filter(
       product =>
@@ -69,7 +62,6 @@ class CreateOrderService {
       customer,
       products: serializedProducts,
     });
-    console.log(`Order ${JSON.stringify(order)}`);
 
     const { order_products } = order;
 

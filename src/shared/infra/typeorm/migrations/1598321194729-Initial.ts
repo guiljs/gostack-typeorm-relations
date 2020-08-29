@@ -67,7 +67,7 @@ export default class Initial1598321194729 implements MigrationInterface {
             referencedTableName: 'customers',
             referencedColumnNames: ['id'],
             columnNames: ['customer_id'],
-            onDelete: 'CASCADE',
+            onDelete: 'SET NULL',
             onUpdate: 'CASCADE',
           },
         ],
